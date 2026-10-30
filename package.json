@@ -1,0 +1,21 @@
+{
+  "name": "furry-air-riders",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cute animals, backyard rides, and one-button racing around the neighborhood.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server/index.js",
+    "test": "node --test shared/*.test.js"
+  },
+  "dependencies": {
+    "three": "^0.180.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0"
+  }
+}

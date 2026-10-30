@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Furry Air Riders</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <div id="hud" class="hidden">
+    <div id="phase"><div id="phase-name"></div><div id="timer"></div></div>
+    <div id="stats"></div>
+    <div id="hpwrap"><div id="hpbar"></div></div>
+    <div id="charge"><div id="chargefill"></div><span>HOLD TO CHARGE &middot; LET GO TO BOOST</span></div>
+    <div id="speed"></div>
+    <canvas id="minimap" width="180" height="180"></canvas>
+    <div id="toasts"></div>
+    <div id="big"></div>
+  </div>
+
+  <div id="menu">
+    <h1>Furry <span>Air</span> Riders</h1>
+    <p class="tag">Pick a pal, pick a ride, gobble treats, bonk your neighbours.</p>
+    <h2>Rider</h2>
+    <div id="animals" class="choices"></div>
+    <h2>Ride</h2>
+    <div id="vehicles" class="choices"></div>
+    <div class="row">
+      <input id="name" maxlength="14" placeholder="Your name" />
+    </div>
+    <div class="row">
+      <button id="solo" class="go">Ride solo (with bots)</button>
+      <button id="online" class="go alt">Ride online</button>
+    </div>
+    <p id="netmsg"></p>
+    <div class="help">
+      <b>Controls</b> &middot; A/D or &larr;/&rarr; steer &middot; <b>Space</b> is the only button:
+      hold on the ground to brake &amp; charge, let go to boost. Hold in the air to dive, let go to glide.
+      Boost into riders to bonk them. Touch: hold anywhere to charge, drag left/right to steer.
+    </div>
+  </div>
+
+  <div id="results" class="hidden"></div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
