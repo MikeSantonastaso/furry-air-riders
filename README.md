@@ -10,6 +10,12 @@ DigitalOcean droplet next.
 
 ## Play it
 
+**In the browser:** https://mikesantonastaso.github.io/furry-air-riders/
+(click "Ride solo"). Every push to `main` redeploys it via GitHub Actions.
+Online play needs the server below, so it doesn't work on the github.io page.
+
+**Locally:**
+
 ```bash
 npm install
 npm run dev          # http://localhost:5173, click "Ride solo"

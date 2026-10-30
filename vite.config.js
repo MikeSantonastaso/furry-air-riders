@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   root: 'client',
+  base: './', // relative paths so the build works on GitHub Pages under /furry-air-riders/
   build: { outDir: '../dist', emptyOutDir: true, chunkSizeWarningLimit: 1000 },
   server: {
     fs: { allow: ['..'] },
