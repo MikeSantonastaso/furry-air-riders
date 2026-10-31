@@ -14,23 +14,28 @@ canvas#game { position: fixed; inset: 0; width: 100%; height: 100%; display: blo
 #menu {
   position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
   width: min(620px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow-y: auto;
-  background: var(--cream); border-radius: 24px; padding: 24px 28px;
+  background: var(--cream); border-radius: 24px; padding: 18px 24px;
   box-shadow: 0 10px 0 #e6d2bd, 0 20px 50px rgba(40, 20, 60, .35);
 }
 #menu h1 { margin: 0; font-size: clamp(30px, 7vw, 46px); letter-spacing: 1px; text-align: center; }
 #menu h1 span { color: var(--pink); }
 #menu .tag { text-align: center; margin: 4px 0 12px; opacity: .8; }
-#menu h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 2px; margin: 14px 0 6px; opacity: .7; }
+#menu h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 2px; margin: 10px 0 5px; opacity: .7; }
 .choices { display: flex; flex-wrap: wrap; gap: 8px; }
 .choice {
-  flex: 1 1 100px; border: 3px solid transparent; background: #fff; border-radius: 14px;
-  padding: 8px; cursor: pointer; text-align: center; font: inherit; color: inherit;
+  flex: 1 1 90px; border: 3px solid transparent; background: #fff; border-radius: 14px;
+  padding: 5px 6px; cursor: pointer; text-align: center; font: inherit; color: inherit;
   box-shadow: 0 3px 0 #e8d8c8;
 }
-.choice .em { font-size: 28px; display: block; }
+.choice .em { font-size: 24px; display: block; }
+.menu-grid { display: grid; grid-template-columns: 1fr 200px; gap: 14px; align-items: start; }
+#preview { width: 200px; height: 236px; align-self: center; border-radius: 18px; background: linear-gradient(#bfe8ff, #e9f8d8); }
+.swatches .choice { flex: 0 0 44px; height: 44px; padding: 0; border-radius: 50%; }
+#hats .choice { flex: 1 1 60px; padding: 4px; font-size: 12px; }
+#hats .choice .em { font-size: 18px; }
 .choice small { display: block; opacity: .7; font-size: 12px; }
 .choice.on { border-color: var(--pink); background: #fff0f5; }
-.row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
 #name { flex: 1; font: inherit; padding: 10px 14px; border-radius: 12px; border: 2px solid #e8d8c8; }
 button.go {
   flex: 1; font: inherit; font-weight: bold; font-size: 18px; padding: 12px; border: 0; border-radius: 14px;
@@ -56,10 +61,17 @@ button.go:active { transform: translateY(3px); box-shadow: 0 2px 0 #d96b8f; }
   background: rgba(0, 0, 0, .3); border-radius: 16px; overflow: hidden; text-align: center; }
 #chargefill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, var(--sun), #ff7b54); }
 #charge span { position: relative; line-height: 30px; font-size: 12px; letter-spacing: 1px; }
+#eventline { position: absolute; top: 88px; left: 50%; transform: translateX(-50%); font-size: 15px; font-weight: bold; white-space: nowrap; }
+#ride { position: absolute; bottom: 92px; left: 50%; transform: translateX(-50%); font-size: 14px; white-space: nowrap; }
+#weapon { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); text-align: center; display: none; }
+#weapon.on { display: block; }
+#weapon-name { font-size: 18px; font-weight: bold; color: #ffd166; }
+#weapon-bar { width: 160px; height: 8px; background: rgba(0, 0, 0, .3); border-radius: 6px; overflow: hidden; margin: 4px auto 0; }
+#weapon-bar i { display: block; height: 100%; background: #ff6b6b; }
 #speed { position: absolute; bottom: 30px; left: calc(50% + min(160px, 32vw)); font-size: 22px; font-weight: bold; }
 #minimap { position: absolute; right: 12px; bottom: 12px; width: 150px; height: 150px; border-radius: 50%;
   background: rgba(255, 255, 255, .25); border: 3px solid rgba(255, 255, 255, .7); }
-#toasts { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+#toasts { position: absolute; top: 116px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .toast { font-weight: bold; font-size: 18px; animation: pop 1.6s ease-out forwards; }
 @keyframes pop { 0% { transform: scale(.5); opacity: 0 } 15% { transform: scale(1.15); opacity: 1 } 80% { opacity: 1 } 100% { transform: translateY(-20px); opacity: 0 } }
 #big { position: absolute; top: 38%; width: 100%; text-align: center; font-size: clamp(40px, 10vw, 84px); font-weight: bold; }
@@ -74,6 +86,11 @@ button.go:active { transform: translateY(3px); box-shadow: 0 2px 0 #d96b8f; }
 #results p { text-align: center; opacity: .7; margin: 10px 0 0; }
 
 @media (max-width: 600px) {
+  .menu-grid { grid-template-columns: 1fr; }
+  #preview { margin: 0 auto; width: 160px; height: 189px; order: -1; }
+  #eventline { top: 70px; font-size: 12px; left: 16px; transform: none; }
+  #ride { font-size: 12px; left: 16px; transform: none; bottom: 96px; }
+  #weapon { left: 16px; transform: none; bottom: 128px; }
   #stats { transform: scale(.75); transform-origin: top left; }
   #phase { left: auto; right: 12px; transform: none; text-align: right; }
   #phase-name { font-size: 10px; letter-spacing: 1px; }

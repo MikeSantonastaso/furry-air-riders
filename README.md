@@ -43,21 +43,34 @@ Touch: hold anywhere to charge, drag left or right to steer.
 
 **A round:**
 
-1. **Neighbourhood Roam (2:00).** Ride anywhere: streets, rooftops, the park
-   hill, the skate yard. Treats pop up everywhere and each one raises a stat:
-   Zoom Carrot (speed), Twisty Pretzel (turn), Fluffy Feather (glide), Fizzy
-   Berry (charge), Bonk Bone (power) and Cozy Cookie (health). Boost into
-   other riders to bonk them; knock someone out and they spill some of their
-   treats.
-2. **Backyard Brawl (1:00).** Everyone is dropped into a fenced ring with the
-   stats they built. Get knocked out and you're out. Last rider rolling wins.
+1. **Neighbourhood Roam (2:30).** Everyone starts in a **Cardboard Box**.
+   - **Rides** are parked around the neighbourhood. Drive into one to hop on.
+     Already riding? Hold Space next to another ride to swap.
+   - **Treats** lie on the ground and each raises a stat: Zoom Carrot (speed),
+     Twisty Pretzel (turn), Fluffy Feather (glide), Fizzy Berry (charge),
+     Bonk Bone (power), Cozy Cookie (health).
+   - **Gift crates** break open when you ram them (boost to smash them in one
+     hit). Inside: a pile of treats, a weapon, or sometimes a ride.
+   - **Weapons** last a few seconds and fire on their own: Sprinkler Spin (hits
+     everyone around you), Acorn Popper (shoots forward), Big Bark (big cone
+     blast). Hits knock treats loose, and enough damage **wrecks a ride**,
+     dropping its rider back into a box.
+   - **Neighbourhood events** pop up at random: Ice Cream Truck (drives the
+     ring road dropping treats, don't get run over), Acorn Storm (dodge the
+     red circles), Treat Shower, Garbage Day (crates everywhere), Yard Sale
+     (free rides).
+2. **Final event**, picked at random and revealed 20 seconds before the roam
+   ends: **Backyard Brawl** (last rider rolling), **Big Leap** (farthest
+   landing off a mega ramp) or **King of the Hill** (most time on the hilltop).
 3. **Results**, then a new round starts.
 
 **Riders:** Biscuit the Corgi, Clover the Bunny, Bandit the Raccoon, Puddles
-the Duckling and Mochi the Cat (cosmetic for now).
+the Duckling and Mochi the Cat, each with four fur colours and seven hats.
+The menu remembers your look.
 
-**Rides:** Zoom Board (fast, falls like a rock), Maple Glider (slow, floats
-forever), Red Wagon (heavy, tough, hits hard).
+**Rides:** Cardboard Box (starter), Zoom Board (fast, falls like a rock),
+Maple Glider (slow, floats forever), Red Wagon (heavy, hits hard), Putt-Putt
+Mower (huge charge, tanky).
 
 ## Code layout
 
@@ -98,10 +111,12 @@ point a local dev build at a remote server with `?server=wss://host/ws`.
 
 - [x] One-button riding, charging, boosting, diving and gliding
 - [x] Neighbourhood map with rooftops, ramps, park hill and skate yard
-- [x] Treats and stats, bonking and KOs, bots
-- [x] Roam, Brawl and Results phases
+- [x] Starter box, ride spawns and ride swapping
+- [x] Treats, gift crates, timed weapons, ride wrecking, bots
+- [x] Random neighbourhood events during the roam
+- [x] Random final event: Brawl, Big Leap, King of the Hill
+- [x] Character menu with fur colours and hats
 - [x] Authoritative server with rooms that fill empty seats with bots
 - [ ] Client-side prediction and interpolation tuning for online play
-- [ ] More rides and per-animal abilities
-- [ ] Items (throwables, shields) and random neighbourhood events
+- [ ] More rides, finals and events; per-animal abilities
 - [ ] Real art and audio

@@ -16,17 +16,27 @@
     <div id="charge"><div id="chargefill"></div><span>HOLD TO CHARGE &middot; LET GO TO BOOST</span></div>
     <div id="speed"></div>
     <canvas id="minimap" width="180" height="180"></canvas>
+    <div id="eventline"></div>
+    <div id="ride"></div>
+    <div id="weapon"><span id="weapon-name"></span><div id="weapon-bar"><i></i></div></div>
     <div id="toasts"></div>
     <div id="big"></div>
   </div>
 
   <div id="menu">
     <h1>Furry <span>Air</span> Riders</h1>
-    <p class="tag">Pick a pal, pick a ride, gobble treats, bonk your neighbours.</p>
-    <h2>Rider</h2>
-    <div id="animals" class="choices"></div>
-    <h2>Ride</h2>
-    <div id="vehicles" class="choices"></div>
+    <p class="tag">Start in a cardboard box. Find a ride, gobble treats, bonk your neighbours.</p>
+    <div class="menu-grid">
+      <div>
+        <h2>Rider</h2>
+        <div id="animals" class="choices"></div>
+        <h2>Fur colour</h2>
+        <div id="tints" class="choices swatches"></div>
+        <h2>Hat</h2>
+        <div id="hats" class="choices"></div>
+      </div>
+      <canvas id="preview" width="220" height="260"></canvas>
+    </div>
     <div class="row">
       <input id="name" maxlength="14" placeholder="Your name" />
     </div>
@@ -38,7 +48,8 @@
     <div class="help">
       <b>Controls</b> &middot; A/D or &larr;/&rarr; steer &middot; <b>Space</b> is the only button:
       hold on the ground to brake &amp; charge, let go to boost. Hold in the air to dive, let go to glide.
-      Boost into riders to bonk them. Touch: hold anywhere to charge, drag left/right to steer.
+      Drive into a parked ride to hop on (hold Space to swap rides later). Ram gift crates to open them. Weapons fire by themselves.
+      Touch: hold anywhere to charge, drag left/right to steer.
     </div>
   </div>
 

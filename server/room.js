@@ -18,9 +18,9 @@ export class Room {
 
   get humans() { return this.clients.size; }
 
-  join(ws, { name, animal, vehicle }) {
+  join(ws, { name, animal, tint, hat }) {
     this.game.removeOneBot();
-    const id = this.game.addRider({ name: String(name || '').slice(0, 14) || undefined, animal, vehicle });
+    const id = this.game.addRider({ name: String(name || '').slice(0, 14) || undefined, animal, tint, hat });
     this.clients.set(ws, id);
     ws.send(JSON.stringify({ t: 'welcome', id, room: this.id }));
     return id;

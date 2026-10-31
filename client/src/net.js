@@ -1,6 +1,6 @@
 // Thin WebSocket client for the authoritative server (server/index.js).
 // The server owns the simulation; we send inputs and render its snapshots.
-export function connect({ name, animal, vehicle, url }) {
+export function connect({ name, animal, tint, hat, url }) {
   const wsUrl = url || `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws`;
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(wsUrl);
@@ -18,7 +18,7 @@ export function connect({ name, animal, vehicle, url }) {
       close() { ws.close(); },
     };
     const timeout = setTimeout(() => { ws.close(); reject(new Error('Server did not answer')); }, 5000);
-    ws.onopen = () => ws.send(JSON.stringify({ t: 'join', name, animal, vehicle }));
+    ws.onopen = () => ws.send(JSON.stringify({ t: 'join', name, animal, tint, hat }));
     ws.onmessage = (ev) => {
       const msg = JSON.parse(ev.data);
       if (msg.t === 'welcome') { net.myId = msg.id; clearTimeout(timeout); resolve(net); }

@@ -1,6 +1,6 @@
 // Builds the static neighbourhood from shared/world.js.
 import * as THREE from 'three';
-import { WORLD, BOUNDS, RING, ROAD_W, ARENA, hillHeight } from '../../shared/world.js';
+import { WORLD, BOUNDS, RING, ROAD_W, ARENA, HILL_ZONE, LEAP, LEAP_RAMP_END, hillHeight } from '../../shared/world.js';
 import { mat } from './models.js';
 
 export function buildScene() {
@@ -20,6 +20,7 @@ export function buildScene() {
   for (const r of WORLD.ramps) scene.add(buildRamp(r));
   scene.add(buildFences());
   scene.add(buildArena());
+  scene.add(buildLeapField());
   scene.add(buildClouds());
   return scene;
 }
@@ -206,6 +207,13 @@ function buildArena() {
       ARENA.x + Math.sin(a1) * ARENA.r, ARENA.z + Math.cos(a1) * ARENA.r,
       ARENA.x + Math.sin(a2) * ARENA.r, ARENA.z + Math.cos(a2) * ARENA.r);
   }
+  // King of the Hill zone, draped over the centre bump.
+  const zone = new THREE.RingGeometry(0.01, HILL_ZONE, 48, 6);
+  zone.rotateX(-Math.PI / 2);
+  zone.translate(ARENA.x, 0, ARENA.z);
+  const zp = zone.attributes.position;
+  for (let i = 0; i < zp.count; i++) zp.setY(i, hillHeight(zp.getX(i), zp.getZ(i)) + 0.15);
+  g.add(new THREE.Mesh(zone, new THREE.MeshBasicMaterial({ color: 0xffd166, transparent: true, opacity: 0.6, side: THREE.DoubleSide, depthWrite: false })));
   // Bunting poles.
   const flagCols = [0xff8fb1, 0xffd166, 0x8fd3ff, 0xb5e48c];
   for (let i = 0; i < 8; i++) {
@@ -218,6 +226,42 @@ function buildArena() {
     flag.rotation.z = Math.PI;
     g.add(flag);
   }
+  return g;
+}
+
+function textSprite(text, scale = 10) {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 128;
+  const g = c.getContext('2d');
+  g.font = 'bold 80px Trebuchet MS, sans-serif';
+  g.textAlign = 'center';
+  g.lineWidth = 10; g.strokeStyle = '#3b2a4a'; g.strokeText(text, 128, 95);
+  g.fillStyle = '#fff'; g.fillText(text, 128, 95);
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c) }));
+  s.scale.set(scale, scale / 2, 1);
+  return s;
+}
+
+// Big Leap field: a long lawn with distance lines after the mega ramp.
+function buildLeapField() {
+  const g = new THREE.Group();
+  const w = LEAP.halfW * 2;
+  const lawn = new THREE.Mesh(new THREE.PlaneGeometry(w, LEAP.endZ - LEAP.startZ + 20), mat(0x9fdc7c));
+  lawn.rotation.x = -Math.PI / 2;
+  lawn.position.set(LEAP.x, 0.04, (LEAP.endZ + LEAP.startZ) / 2);
+  g.add(lawn);
+  for (let d = 50; LEAP_RAMP_END + d < LEAP.endZ; d += 50) {
+    const line = new THREE.Mesh(new THREE.PlaneGeometry(w, 1.2), mat(0xffffff));
+    line.rotation.x = -Math.PI / 2;
+    line.position.set(LEAP.x, 0.08, LEAP_RAMP_END + d);
+    g.add(line);
+    const label = textSprite(`${d}m`);
+    label.position.set(LEAP.x + LEAP.halfW + 4, 5, LEAP_RAMP_END + d);
+    g.add(label);
+  }
+  picketRun(g, LEAP.x - LEAP.halfW - 1, LEAP.startZ - 12, LEAP.x - LEAP.halfW - 1, LEAP.endZ);
+  picketRun(g, LEAP.x + LEAP.halfW + 1, LEAP.startZ - 12, LEAP.x + LEAP.halfW + 1, LEAP.endZ);
+  picketRun(g, LEAP.x - LEAP.halfW - 1, LEAP.endZ, LEAP.x + LEAP.halfW + 1, LEAP.endZ);
   return g;
 }
 

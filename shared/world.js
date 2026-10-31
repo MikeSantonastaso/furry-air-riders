@@ -5,7 +5,20 @@ import { makeRng } from './rng.js';
 export const BOUNDS = 250;            // neighbourhood is a square of +-BOUNDS
 export const RING = 180;              // ring road centre line
 export const ROAD_W = 22;
-export const ARENA = { x: 0, z: 430, r: 72 }; // fenced brawl ring off-map
+export const ARENA = { x: 0, z: 430, r: 72 }; // fenced ring off-map (brawl, hill)
+export const HILL_ZONE = 14;          // radius of the King of the Hill zone
+// Big Leap: a long field west of the neighbourhood with a mega ramp.
+export const LEAP = { x: -420, startZ: -250, rampZ: -170, len: 60, wid: 80, h: 30, endZ: 320, halfW: 40 };
+export const LEAP_RAMP_END = LEAP.rampZ + LEAP.len / 2;
+
+// Places neighbourhood events can happen, with names for announcements.
+export const SPOTS = [
+  { name: 'the park', x: 92, z: -92 },
+  { name: 'the skate yard', x: -90, z: 90 },
+  { name: 'Maple Street', x: 90, z: 90 },
+  { name: 'Acorn Avenue', x: -90, z: -90 },
+  { name: 'the big crossroads', x: 0, z: 0 },
+];
 
 const HOUSE_COLORS = [0xffc8a2, 0xb5e3d8, 0xfff1a8, 0xd7c4f2, 0xf9b8c8, 0xc9e4a6, 0xa8d4ff];
 const ROOF_COLORS = [0xd9534f, 0x5b7db1, 0x6b8e4e, 0x8a5a44, 0xe08a3c];
@@ -93,7 +106,9 @@ function buildWorld() {
     return { x: ARENA.x + Math.sin(a) * 45, z: ARENA.z + Math.cos(a) * 45, dir: a + Math.PI / 2, len: 14, wid: 10, h: 4 };
   });
 
-  return { houses, trees, ramps: ramps.concat(arenaRamps), hills: hills.concat(arenaHills) };
+  const leapRamp = { x: LEAP.x, z: LEAP.rampZ, dir: 0, len: LEAP.len, wid: LEAP.wid, h: LEAP.h, big: true };
+
+  return { houses, trees, ramps: ramps.concat(arenaRamps, [leapRamp]), hills: hills.concat(arenaHills) };
 }
 
 export const WORLD = buildWorld();
@@ -132,7 +147,13 @@ export function groundHeight(x, z) {
   return h;
 }
 
-export function inArena(x, z) {
-  const dx = x - ARENA.x, dz = z - ARENA.z;
-  return dx * dx + dz * dz < (ARENA.r + 30) ** 2;
+// Point on the ring road loop at distance s (clockwise), used by the ice cream truck.
+export function ringPoint(s) {
+  const side = RING * 2, per = side * 4;
+  s = ((s % per) + per) % per;
+  const k = Math.floor(s / side), t = s - k * side;
+  if (k === 0) return { x: -RING + t, z: RING, heading: Math.PI / 2 };
+  if (k === 1) return { x: RING, z: RING - t, heading: Math.PI };
+  if (k === 2) return { x: RING - t, z: -RING, heading: -Math.PI / 2 };
+  return { x: -RING, z: -RING + t, heading: 0 };
 }
